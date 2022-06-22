@@ -90,13 +90,13 @@ public class Vuelo implements Grabable{
 
     @Override
     public void cargarDatos() {
-        System.out.println("INgrese el codigo de vuelo: ");
+        System.out.println("Ingrese el codigo de vuelo: ");
         this.codVuelo = EntradaSalida.leerInt();
         System.out.println("Ingrese el destino: ");
         this.destino = EntradaSalida.leerString();
         System.out.println("Ingrese la hora: ");
         this.hora.cargarHora();
-        System.out.println("Ingrese el destino: ");
+        System.out.println("Ingrese el fecha: ");
         this.fechaDestino.cargarFecha();
         
     }

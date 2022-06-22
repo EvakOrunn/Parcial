@@ -32,17 +32,20 @@ public class Principal {
      * borrados) 
      */
     public static void mostrarActivos() {
-
+        int n = 0; 
         m2.abrirParaLectura();
         m2.irPrincipioArchivo();
         while (!m2.eof()) {
             reg = m2.leerRegistro();
             if(reg.getActivo())
+            n = n+1;
             reg.mostrarRegistro(); /* En el caso de requerirse un modo determinado de impresión
             * por ejemplo en columnas, este método deberá organizar el titulo y encabezado del
             * listado y convocar a leerRegistro para luego mostrarlo de acuerdo a la solicitud
             * sin convocar al metodo mostrarRegistro */
         }
+        System.out.println("----------------------------------------------");
+        System.out.println("                         CANTIDAD VUELOS: " + n);
         m2.cerrarArchivo();
     }
 

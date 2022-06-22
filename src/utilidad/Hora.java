@@ -17,6 +17,8 @@ public class Hora {
     private int minuto;
 
     public Hora() {
+        this.hora = 0;
+        this.minuto = 0;
     }
 
     public Hora(int hora, int minuto) {

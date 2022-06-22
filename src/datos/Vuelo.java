@@ -6,13 +6,12 @@ package datos;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import utilidad.Fecha;
 import utilidad.Hora;
 import persistencia.Grabable;
 import persistencia.Registro;
 import entradaSalida.EntradaSalida;
+import excepciones.*;
 
 /**
  *
@@ -42,6 +41,44 @@ public class Vuelo implements Grabable{
         this.hora = new Hora();
     }
 
+    public int getCodVuelo() {
+        return codVuelo;
+    }
+
+    public void setCodVuelo(int codVuelo) throws NumeroNegativoExcepcion{
+        if (codVuelo < 0) {
+            throw new NumeroNegativoExcepcion();
+        }
+        this.codVuelo = codVuelo;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) throws CadenaLargaExcepcion{
+        if (destino.length() > 40) {
+            throw new CadenaLargaExcepcion();
+        }
+        this.destino = destino;
+    }
+
+    public Fecha getFechaDestino() {
+        return fechaDestino;
+    }
+
+    public void setFechaDestino(Fecha fechaDestino) {
+        this.fechaDestino = fechaDestino;
+    }
+
+    public Hora getHora() {
+        return hora;
+    }
+
+    public void setHora(Hora hora) {
+        this.hora = hora;
+    }
+    
     @Override
     public int tamRegistro() {
         return TAMREG;
@@ -105,11 +142,5 @@ public class Vuelo implements Grabable{
     public String toString() {
         return "Vuelo{" + "codVuelo=" + codVuelo + ", destino=" + destino + ", fecha Destino=" + fechaDestino.toString() + ", hora=" + hora.toString() + '}';
     }
-    
-    
-    
-    
-    
-    
-    
+
 }

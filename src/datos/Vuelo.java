@@ -140,7 +140,14 @@ public class Vuelo implements Grabable{
 
     @Override
     public String toString() {
-        return "Vuelo{" + "codVuelo=" + codVuelo + ", destino=" + destino + ", fecha Destino=" + fechaDestino.toString() + ", hora=" + hora.toString() + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%-15d", codVuelo));
+        sb.append(String.format("%-40s", destino));
+        sb.append(String.format("%-15s", fechaDestino.toString()));
+        sb.append(String.format("%-15s", hora.toString()));
+        return sb.toString();
     }
+
+    
 
 }

@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Principal { 
     private static Archivo m2;
     private static Registro reg;
-    private static Articulo art;
+    private static Vuelo art;
 
     /**
      * Muestra el contenido de un archivo (incluidos los registros marcados como
@@ -88,14 +88,14 @@ public class Principal {
         int op;
 
         try {
-            m2 = new Archivo("Articulos.dat", new Articulo()); // colocar el camino correcto del archivo que usemos
+            m2 = new Archivo("Articulos.dat", new Vuelo()); // colocar el camino correcto del archivo que usemos
         } catch (ClassNotFoundException e) {
             System.out.println("Error al crear los descriptores de archivos: " + e.getMessage());
             System.exit(1);
         }
         
         reg = new Registro();
-        art = new Articulo();
+        art = new Vuelo();
         reg.setDatos(art);
         m2.abrirParaLeerEscribir();
         long cuantos = m2.cantidadRegistros();

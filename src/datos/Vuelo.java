@@ -12,6 +12,7 @@ import utilidad.Fecha;
 import utilidad.Hora;
 import persistencia.Grabable;
 import persistencia.Registro;
+import entradaSalida.EntradaSalida;
 
 /**
  *
@@ -62,24 +63,49 @@ public class Vuelo implements Grabable{
             a.writeInt(hora.getHora());
             a.writeInt(hora.getMinuto());
         } catch (IOException ex) {
-            Logger.getLogger(Vuelo.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error al grabar el registro: " + ex.getMessage());
+            System.exit(1);
         }
     }
 
     @Override
     public void leer(RandomAccessFile a) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            codVuelo = a.readInt();
+            destino = Registro.readString(a, 40);
+            fechaDestino = new Fecha(a.readInt(),a.readInt(),a.readInt());
+            hora = new Hora(a.readInt(),a.readInt());
+        } catch (IOException ex) {
+            System.out.println("Error al leer el registro: " + ex.getMessage());
+            System.exit(1);
+        }
+        
     }
 
     @Override
     public void mostrarRegistro() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.toString();
+        System.out.println("\t");
     }
 
     @Override
     public void cargarDatos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println("INgrese el codigo de vuelo: ");
+        this.codVuelo = EntradaSalida.leerInt();
+        System.out.println("Ingrese el destino: ");
+        this.destino = EntradaSalida.leerString();
+        System.out.println("Ingrese la hora: ");
+        this.hora.cargarHora();
+        System.out.println("Ingrese el destino: ");
+        this.fechaDestino.cargarFecha();
+        
     }
+
+    @Override
+    public String toString() {
+        return "Vuelo{" + "codVuelo=" + codVuelo + ", destino=" + destino + ", fecha Destino=" + fechaDestino.toString() + ", hora=" + hora.toString() + '}';
+    }
+    
     
     
     

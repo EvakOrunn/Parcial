@@ -88,7 +88,7 @@ public class Principal {
         int op;
 
         try {
-            m2 = new Archivo("c:/Archivos/Articulos.dat", new Articulo()); // colocar el camino correcto del archivo que usemos
+            m2 = new Archivo("Articulos.dat", new Articulo()); // colocar el camino correcto del archivo que usemos
         } catch (ClassNotFoundException e) {
             System.out.println("Error al crear los descriptores de archivos: " + e.getMessage());
             System.exit(1);

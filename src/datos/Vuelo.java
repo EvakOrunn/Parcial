@@ -127,11 +127,21 @@ public class Vuelo implements Grabable{
 
     @Override
     public void cargarDatos() {
+<<<<<<< HEAD
         cargarCodigoVuelo();
         cargarDestino();
         System.out.println("\tHora del Vuelo");
         this.hora.cargarHora();
         System.out.println("\tFecha del Vuelo");
+=======
+        System.out.println("Ingrese el codigo de vuelo: ");
+        this.codVuelo = EntradaSalida.leerInt();
+        System.out.println("Ingrese el destino: ");
+        this.destino = EntradaSalida.leerString();
+        System.out.println("Ingrese la hora: ");
+        this.hora.cargarHora();
+        System.out.println("Ingrese el fecha: ");
+>>>>>>> 294e218d8da6f91e540ad2ccc540a08a61edac94
         this.fechaDestino.cargarFecha();
         
     }
@@ -166,7 +176,14 @@ public class Vuelo implements Grabable{
     
     @Override
     public String toString() {
-        return "Vuelo{" + "codVuelo=" + codVuelo + ", destino=" + destino + ", fecha Destino=" + fechaDestino.toString() + ", hora=" + hora.toString() + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%-15d", codVuelo));
+        sb.append(String.format("%-40s", destino));
+        sb.append(String.format("%-15s", fechaDestino.toString()));
+        sb.append(String.format("%-15s", hora.toString()));
+        return sb.toString();
     }
+
+    
 
 }

@@ -127,17 +127,43 @@ public class Vuelo implements Grabable{
 
     @Override
     public void cargarDatos() {
-        System.out.println("INgrese el codigo de vuelo: ");
-        this.codVuelo = EntradaSalida.leerInt();
-        System.out.println("Ingrese el destino: ");
-        this.destino = EntradaSalida.leerString();
-        System.out.println("Ingrese la hora: ");
+        cargarCodigoVuelo();
+        cargarDestino();
+        System.out.println("\tHora del Vuelo");
         this.hora.cargarHora();
-        System.out.println("Ingrese el destino: ");
+        System.out.println("\tFecha del Vuelo");
         this.fechaDestino.cargarFecha();
         
     }
-
+    
+    private void cargarCodigoVuelo(){
+        boolean flag = false;
+        while (!flag) {            
+            try {
+                EntradaSalida.mostrarMensaje("Codigo de Vuelo:");
+                int auxC = EntradaSalida.leerInt();
+                setCodVuelo(auxC);
+                flag = true;
+            } catch (NumeroNegativoExcepcion ex) {
+                EntradaSalida.mostrarMensajeLN("Error al cargar el Codigo de Vuelo:" + ex.getMessage());
+            }
+        }
+    }
+    
+    private void cargarDestino(){
+        boolean flag = false;
+        while (!flag) {            
+            try {
+                EntradaSalida.mostrarMensaje("Destino:");
+                String auxD = EntradaSalida.leerString();
+                setDestino(auxD.toUpperCase());
+                flag = true;
+            } catch (CadenaLargaExcepcion e) {
+                EntradaSalida.mostrarMensajeLN("Error al cargar el Destino:" + e.getMessage());
+            }
+        }
+    }
+    
     @Override
     public String toString() {
         return "Vuelo{" + "codVuelo=" + codVuelo + ", destino=" + destino + ", fecha Destino=" + fechaDestino.toString() + ", hora=" + hora.toString() + '}';

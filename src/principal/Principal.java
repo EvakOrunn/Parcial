@@ -1,19 +1,21 @@
 package principal;
 
-import persistencia.*; 
-import datos.*; 
-import entradaDatos.*; 
+import persistencia.*;
+import datos.*;
+import entradaDatos.*;
+import entradaSalida.EntradaSalida;
 import java.util.Scanner;
 
-public class Principal { 
+public class Principal {
+
     private static Archivo m2;
     private static Registro reg;
-    private static Vuelo art;
+    private static VueloModificado art;
 
     /**
      * Muestra el contenido de un archivo (incluidos los registros marcados como
-     * borrados) es de utilidad para verificar el contenido del archivo a medida 
-     * que vamos avanzando en la resolución de modo de controlar como estan 
+     * borrados) es de utilidad para verificar el contenido del archivo a medida
+     * que vamos avanzando en la resolución de modo de controlar como estan
      * cargados los registros incluyendo los vacios o los borrados
      */
     public static void mostrarTodo() {
@@ -28,24 +30,28 @@ public class Principal {
     }
 
     /**
-     * Muestra el contenido de un archivo (sin incluir los registros marcados como
-     * borrados) 
+     * Muestra el contenido de un archivo (sin incluir los registros marcados
+     * como borrados)
      */
     public static void mostrarActivos() {
-        int n = 0; 
+        int n = 0;
         m2.abrirParaLectura();
         m2.irPrincipioArchivo();
+        EntradaSalida.mostrarMensajeLN(String.format("%-13s %-40s %-15s %-15s", "Codigo vuelo", "Lugar Destino","Fecha de vuelo", "Hora"));
+        EntradaSalida.mostrarMensajeLN("----------------------------------------------------------------------------");
         while (!m2.eof()) {
             reg = m2.leerRegistro();
-            if(reg.getActivo())
-            n = n+1;
-            reg.mostrarRegistro(); /* En el caso de requerirse un modo determinado de impresión
+            if (reg.getActivo()) {
+                n = n + 1;
+                reg.mostrarRegistro();
+            }
+            /* En el caso de requerirse un modo determinado de impresión
             * por ejemplo en columnas, este método deberá organizar el titulo y encabezado del
             * listado y convocar a leerRegistro para luego mostrarlo de acuerdo a la solicitud
             * sin convocar al metodo mostrarRegistro */
         }
-        System.out.println("----------------------------------------------");
-        System.out.println("                         CANTIDAD VUELOS: " + n);
+        System.out.println("----------------------------------------------------------------------------");
+        System.out.println(String.format("%70s %-4d", "Cant Vuelos", n));
         m2.cerrarArchivo();
     }
 
@@ -58,12 +64,13 @@ public class Principal {
         art.cargarDatos();
         aux.setDatos(art);
         aux.setActivo(true);
-        return aux; /* Si utilizaramos la instancia reg, nos encontrariamos modificando
+        return aux;
+        /* Si utilizaramos la instancia reg, nos encontrariamos modificando
          * el espacio de memoria relacionado con la lectura del archivo y por lo tanto
          * cambiaria a medida que avanzaramos sobre el archivo. OJO CON ESTO
          */
     }
-    
+
     public static void cargarArticulos() {
         Scanner entrada = new Scanner(System.in);
         String op;
@@ -91,22 +98,23 @@ public class Principal {
         int op;
 
         try {
-            m2 = new Archivo("Articulos.dat", new Vuelo()); // colocar el camino correcto del archivo que usemos
+            m2 = new Archivo("Articulos.dat", new VueloModificado()); // colocar el camino correcto del archivo que usemos
         } catch (ClassNotFoundException e) {
             System.out.println("Error al crear los descriptores de archivos: " + e.getMessage());
             System.exit(1);
         }
-        
+
         reg = new Registro();
-        art = new Vuelo();
+        art = new VueloModificado();
         reg.setDatos(art);
         m2.abrirParaLeerEscribir();
         long cuantos = m2.cantidadRegistros();
         m2.cerrarArchivo();
-        
-        if(cuantos == 0)
+
+        if (cuantos == 0) {
             m2.crearArchivoVacio(new Registro(art, 0));
-        
+        }
+
         do {
             System.out.println("Opciones ABM de archivos");
             System.out.println("1. Alta de un registro de Articulo");
@@ -135,7 +143,7 @@ public class Principal {
 
                 case 3:
                     System.out.println("Ingrese el artículo a borrar: ");
-                    reg.cargarNroOrden();                    
+                    reg.cargarNroOrden();
                     m2.bajaRegistro(reg);
                     break;
 

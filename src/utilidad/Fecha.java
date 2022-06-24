@@ -12,7 +12,7 @@ import entradaSalida.*;
  * @author Luis Cruz
  */
 public class Fecha {
-    
+
     private int dia;
     private int mes;
     private int año;
@@ -33,7 +33,7 @@ public class Fecha {
         return dia;
     }
 
-    public void setDia(int dia) throws NumeroNegativoExcepcion{
+    public void setDia(int dia) throws NumeroNegativoExcepcion {
         if (dia < 0) {
             throw new NumeroNegativoExcepcion();
         }
@@ -44,7 +44,7 @@ public class Fecha {
         return mes;
     }
 
-    public void setMes(int mes) throws NumeroNegativoExcepcion{
+    public void setMes(int mes) throws NumeroNegativoExcepcion {
         if (mes < 0) {
             throw new NumeroNegativoExcepcion();
         }
@@ -55,22 +55,22 @@ public class Fecha {
         return año;
     }
 
-    public void setAño(int año) throws NumeroNegativoExcepcion{
+    public void setAño(int año) throws NumeroNegativoExcepcion {
         if (año < 0) {
             throw new NumeroNegativoExcepcion();
         }
         this.año = año;
     }
-    
-    public void cargarFecha(){
+
+    public void cargarFecha() {
         grabarAño();
         grabarMes();
         grabarDia();
     }
-    
-    private void grabarDia(){
+
+    private void grabarDia() {
         boolean flag = false;
-        while (!flag) {            
+        while (!flag) {
             try {
                 EntradaSalida.mostrarMensaje("Dia:");
                 int auxD = EntradaSalida.leerInt();
@@ -85,10 +85,10 @@ public class Fecha {
             }
         }
     }
-    
-    private void grabarMes(){
+
+    private void grabarMes() {
         boolean flag = false;
-        while (!flag) {            
+        while (!flag) {
             try {
                 EntradaSalida.mostrarMensaje("Mes:");
                 int auxM = EntradaSalida.leerInt();
@@ -103,10 +103,10 @@ public class Fecha {
             }
         }
     }
-    
-    private void grabarAño(){
+
+    private void grabarAño() {
         boolean flag = false;
-        while (!flag) {            
+        while (!flag) {
             try {
                 EntradaSalida.mostrarMensaje("Año:");
                 int auxA = EntradaSalida.leerInt();
@@ -121,8 +121,43 @@ public class Fecha {
             }
         }
     }
-    
-    private boolean validarDia(int dia){
+
+    /**
+     * 
+     * @param dia
+     * @return
+    private boolean validarDia(int dia) {
+        boolean valid = false;
+        switch (this.mes) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                valid = dia > 0 && dia < 32;
+                break;
+            case 2:
+                if (bisiesto(this.año)) {
+                    valid = dia > 0 && dia < 30;
+                } else {
+                    valid = dia > 0 && dia < 29;
+                }
+                break;
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    valid = dia > 0 && dia > 31;
+                    break;
+            default:
+                throw new AssertionError();
+        }
+    }
+    */
+
+    private boolean validarDia(int dia) {
         boolean valid = false;
         switch (this.mes) {
             case 1, 3, 5, 7, 8, 10, 12 -> valid = dia > 0 && dia < 32;
@@ -138,19 +173,19 @@ public class Fecha {
         }
         return valid;
     }
-    
-    private boolean validarMes(int mes){
+
+    private boolean validarMes(int mes) {
         return (mes > 0 && mes < 13);
     }
-    
-    private boolean validarAño(int año){
+
+    private boolean validarAño(int año) {
         return año > 1900;
     }
 
-    private boolean bisiesto(int anio){
+    private boolean bisiesto(int anio) {
         return ((anio % 4 == 0) && ((anio % 100 != 0) || (anio % 400 == 0)));
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -187,5 +222,5 @@ public class Fecha {
         sb.append(dia).append("/").append(mes).append("/").append(año).append("\n");
         return sb.toString();
     }
-    
+
 }

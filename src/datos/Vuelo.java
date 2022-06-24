@@ -17,13 +17,13 @@ import excepciones.*;
  *
  * @author Luis Cruz
  */
-public class Vuelo implements Grabable{
-    
+public class Vuelo implements Grabable {
+
     private int codVuelo; //4bytes
     private String destino; //40*2 = 80bytes
     private Fecha fechaDestino; //12bytes
     private Hora hora; //8bytes
-    
+
     private final static int TAMREG = 104; //tamaño del registro
     private final static int TAMARCH = 100; //crea 100 registros vacios;
 
@@ -45,7 +45,7 @@ public class Vuelo implements Grabable{
         return codVuelo;
     }
 
-    public void setCodVuelo(int codVuelo) throws NumeroNegativoExcepcion{
+    public void setCodVuelo(int codVuelo) throws NumeroNegativoExcepcion {
         if (codVuelo < 0) {
             throw new NumeroNegativoExcepcion();
         }
@@ -56,7 +56,7 @@ public class Vuelo implements Grabable{
         return destino;
     }
 
-    public void setDestino(String destino) throws CadenaLargaExcepcion{
+    public void setDestino(String destino) throws CadenaLargaExcepcion {
         if (destino.length() > 40) {
             throw new CadenaLargaExcepcion();
         }
@@ -78,7 +78,7 @@ public class Vuelo implements Grabable{
     public void setHora(Hora hora) {
         this.hora = hora;
     }
-    
+
     @Override
     public int tamRegistro() {
         return TAMREG;
@@ -86,7 +86,7 @@ public class Vuelo implements Grabable{
 
     @Override
     public int tamArchivo() {
-       return TAMARCH;
+        return TAMARCH;
     }
 
     @Override
@@ -110,13 +110,13 @@ public class Vuelo implements Grabable{
         try {
             codVuelo = a.readInt();
             destino = Registro.readString(a, 40);
-            fechaDestino = new Fecha(a.readInt(),a.readInt(),a.readInt());
-            hora = new Hora(a.readInt(),a.readInt());
+            fechaDestino = new Fecha(a.readInt(), a.readInt(), a.readInt());
+            hora = new Hora(a.readInt(), a.readInt());
         } catch (IOException ex) {
             System.out.println("Error al leer el registro: " + ex.getMessage());
             System.exit(1);
         }
-        
+
     }
 
     @Override
@@ -127,15 +127,40 @@ public class Vuelo implements Grabable{
 
     @Override
     public void cargarDatos() {
-        System.out.println("Ingrese el codigo de vuelo: ");
-        this.codVuelo = EntradaSalida.leerInt();
-        System.out.println("Ingrese el destino: ");
-        this.destino = EntradaSalida.leerString();
-        System.out.println("Ingrese la hora: ");
+        cargarCodigoVuelo();
+        cargarDestino();
+        System.out.println("\tHora del Vuelo");
         this.hora.cargarHora();
-        System.out.println("Ingrese el fecha: ");
+        System.out.println("\tFecha del Vuelo");
         this.fechaDestino.cargarFecha();
-        
+    }
+    
+    private void cargarCodigoVuelo(){
+        boolean flag = false;
+        while (!flag) {            
+            try {
+                EntradaSalida.mostrarMensaje("Codigo de Vuelo:");
+                int codAx = EntradaSalida.leerInt();
+                setCodVuelo(codAx);
+                flag = true;
+            } catch (NumeroNegativoExcepcion | NumberFormatException e) {
+                EntradaSalida.mostrarMensajeLN("Error al grabar el Codigo de Vuelo:" + e.getMessage());
+            }
+        }
+    }
+    
+    private void cargarDestino(){
+        boolean flag = false;
+        while (!flag) {            
+            try {
+                EntradaSalida.mostrarMensaje("Destino del Vuelo:");
+                String desAx = EntradaSalida.leerString();
+                setDestino(desAx);
+                flag = true;
+            } catch (CadenaLargaExcepcion e) {
+                EntradaSalida.mostrarMensajeLN("Error al grabar el Destino del Vuelo:");
+            }
+        }
     }
 
     @Override
@@ -147,7 +172,5 @@ public class Vuelo implements Grabable{
         sb.append(String.format("%-15s", hora.toString()));
         return sb.toString();
     }
-
-    
 
 }
